@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Platinum — GTA VI Trophy Guide &amp; Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Leonida Platinum</h1>
+    <p class="sub">The complete offline trophy guide &amp; tracker for Grand Theft Auto VI on PlayStation 5 — all 55 official trophies, a roadmap to the platinum, and a guide to each in our own words, with its sources.</p>
+  </div>
+  <div class="progress" id="progressBox">
+    <div class="big"><span id="earnedCount">0</span><span class="of">/ 55</span></div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="counts" id="gradeCounts"></div>
+    <p class="note">1 platinum · 2 gold · 6 silver · 46 bronze · 28 hidden on PlayStation until earned</p>
+  </div>
+</header>
+
+<nav class="views" id="viewTabs">
+  <button data-view="checklist" class="active">Checklist</button>
+  <button data-view="roadmap">Roadmap to Platinum</button>
+  <button data-view="missables">Missables</button>
+</nav>
+
+<section class="toolbar">
+  <input id="search" type="search" placeholder="Search trophies by name or description…" aria-label="Search trophies">
+  <div class="filters" id="kindFilters" role="group" aria-label="Filter by kind">
+    <button data-kind="all" class="active">All</button>
+    <button data-kind="story">Story</button>
+    <button data-kind="missable">Missable</button>
+    <button data-kind="collectible">Collectibles</button>
+    <button data-kind="activity">Activities</button>
+    <button data-kind="combat">Combat</button>
+    <button data-kind="exploration">Exploration</button>
+    <button data-kind="economy">Money</button>
+    <button data-kind="online">Online</button>
+  </div>
+  <label class="grade">Grade
+    <select id="grade">
+      <option value="">Any grade</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label class="spoiler"><input type="checkbox" id="spoiler"> Spoiler-free: hide story trophies until earned</label>
+  <span class="spacer"></span>
+  <button id="exportBtn" type="button">Export progress</button>
+  <label class="import">Import <input id="importFile" type="file" accept="application/json,.json"></label>
+  <button id="resetBtn" type="button">Reset</button>
+</section>
+
+<main>
+  <section id="view-checklist" class="view">
+    <div class="layout">
+      <div class="list">
+        <p class="hint" id="onlineNote" hidden>No online trophies: the official list of 55 holds no online trophy, so this filter is empty on purpose.</p>
+        <p class="hint" id="resultCount"></p>
+        <table>
+          <thead><tr><th></th><th>Trophy</th><th>Official description</th><th>Grade</th><th>Kind</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <aside class="detail" id="detail" aria-live="polite">
+        <h2 id="detailTitle">Pick a trophy</h2>
+        <p class="detailHint">Click any trophy in the list to read its full guide, what to do, when it can be missed, and where each fact comes from.</p>
+        <div id="detailBody"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <h2>Roadmap to the platinum</h2>
+    <p>Built from the official descriptions alone: story first, in order, then the activities and collectibles, then the combat and money grinds, then the 100% cleanup. Nothing here needs a second playthrough if you follow the missable flags.</p>
+    <ol class="stages" id="roadmapStages"></ol>
+  </section>
+
+  <section id="view-missables" class="view" hidden>
+    <h2>Missable trophies — do these in the story, in order</h2>
+    <p>Every trophy below is flagged missable because its trigger is a story mission, a stranger strand, or a partner moment that may not come back after the finale. This is inferred from the official descriptions, not verified in the game: if the game offers mission or chapter replay, a missed one can be recovered there. Everything not listed here can be earned after the story.</p>
+    <ul class="missableList" id="missableList"></ul>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Sources.</strong> Trophy names, descriptions and grades: the official PlayStation 5 list as published by Exophase and PSNProfiles before this guide was written (the two agree on every name, description and grade). Progress targets (counts): PSNProfiles. Every guide is written for this entry in our own words from the official description, and says where a place or step is not pinned down yet — the game released 2026-11-19 and these guides were not checked in the game. No Rockstar logo, artwork or game screenshots are used here. Works fully offline: nothing is fetched at run time except its own files.</p>
+  <p>Progress is saved in your browser (localStorage) and never leaves your machine. Export it to a file to back it up, import it back on any machine.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
