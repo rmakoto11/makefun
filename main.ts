@@ -18,7 +18,7 @@
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
@@ -29,7 +29,21 @@ const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+// Screenshots: the repository carries them as base64 text (.b64 files) because
+// the GitHub connector cannot transport binary files, so a plain copy would
+// corrupt them. Decoding base64 is lossless: the bytes written here are
+// byte-for-byte the JPEG renders taken of this guide in a desktop browser.
+// Any real .jpg/.png already in screenshots/ is copied through unchanged.
+if (existsSync(join(here, 'screenshots'))) {
+  for (const name of readdirSync(join(here, 'screenshots'))) {
+    const src = join(here, 'screenshots', name);
+    if (name.endsWith('.b64')) {
+      writeFileSync(join(out, 'screenshots', name.slice(0, -4)), Buffer.from(readFileSync(src, 'utf8').trim(), 'base64'));
+    } else {
+      cpSync(src, join(out, 'screenshots', name));
+    }
+  }
+}
 
 // The scorer's own caps (reference/gate.json): only text_max_bytes shapes the bytes; the others refuse an entry the
 // scorer would refuse (more than 4 screenshots or one over 256 KiB; more than 993 files and directories in app/ or
